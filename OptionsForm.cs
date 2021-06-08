@@ -28,5 +28,14 @@ namespace SplatterGenCubed {
         private void PresetsComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             Form1.ActivePreset = Form1.LiquidPresets[PresetsComboBox.SelectedItem.ToString()];
         }
+
+        private void OptionsForm_FormClosing(object sender, FormClosingEventArgs e) {
+            Form1.OptionsFormOpen = false;
+        }
+
+        private void SplatterSizeNumericUpDown_ValueChanged(object sender, EventArgs e) {
+            int val = Convert.ToInt32(SplatterSizeNumericUpDown.Value);
+            Form1.InitializeImageSettings(2048, val);
+        }
     }
 }

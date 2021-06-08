@@ -15,15 +15,16 @@ namespace SplatterGenCubed {
     public partial class Form1 : Form {
         public Form1() {
             InitializeComponent();
+
+            // What resolution the splatter is initially rendered at, and what resolution the outputted image will be:
+            InitializeImageSettings(2048, 256);
         }
 
         // Data that will be output upon exporting:
         public Image DecalOutputData { get; set; }
 
-
         // Options form stuff:
-        OptionsForm OF = new OptionsForm();
-
+        static public bool OptionsFormOpen = false;
 
         // Functions for the dictionary entries go here:
         public static Func<Color, int, int> MamBloodRF = (Color originalBrushColor, int colorShift) => {
@@ -81,16 +82,16 @@ namespace SplatterGenCubed {
 
         // Image settings:
         public Color bgColor = Color.FromArgb(255, 127, 127, 127);
-        private int imgWidth;
-        private int imgHeight;
-        private int simWidth;
-        private int simHeight;
-        private int centerX;
-        private int centerY;
-        private int finalRes;
-        private double maxDist;
-        private double trueMaxDist;
-        private double trueMaxDistLinear;
+        private static int imgWidth;
+        private static int imgHeight;
+        private static int simWidth;
+        private static int simHeight;
+        private static int centerX;
+        private static int centerY;
+        private static int finalRes;
+        private static double maxDist;
+        private static double trueMaxDist;
+        private static double trueMaxDistLinear;
 
 
         // Random number generator:
@@ -110,7 +111,7 @@ namespace SplatterGenCubed {
 
 
         // Member functions used for generation:
-        public void InitializeImageSettings(int size, int fr) {
+        public static void InitializeImageSettings(int size, int fr) {
             imgWidth = size;
             imgHeight = size;
             simWidth = imgWidth / 2;
@@ -262,9 +263,6 @@ namespace SplatterGenCubed {
             if (DecalOutputData != null) {
                 DecalOutputData.Dispose();
             }
-
-            // What resolution the splatter is initially rendered at, and what resolution the outputted image will be:
-            InitializeImageSettings(2048, 256);
 
             SolidBrush layerBrush = new SolidBrush(HslToColor(ActivePreset.GetH(), ActivePreset.GetS(), ActivePreset.GetL(), ActivePreset.GetAlpha()));
             Bitmap imgBackground;
@@ -582,7 +580,11 @@ namespace SplatterGenCubed {
 
 
         private void OptionsButton_Click(object sender, EventArgs e) {
-            OF.Show();
+            if (!OptionsFormOpen) {
+                OptionsForm OF = new OptionsForm();
+                OF.Show();
+                OptionsFormOpen = true;
+            }
         }
 
 

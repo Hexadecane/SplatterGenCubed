@@ -28,6 +28,9 @@ namespace SplatterGenCubed {
             this.PresetLabel = new System.Windows.Forms.Label();
             this.PresetsComboBox = new System.Windows.Forms.ComboBox();
             this.ResetOptionsButton = new System.Windows.Forms.Button();
+            this.SplatterSizeNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.SizeLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.SplatterSizeNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // PresetLabel
@@ -48,16 +51,52 @@ namespace SplatterGenCubed {
             this.ResetOptionsButton.Name = "ResetOptionsButton";
             this.ResetOptionsButton.UseVisualStyleBackColor = true;
             // 
+            // SplatterSizeNumericUpDown
+            // 
+            this.SplatterSizeNumericUpDown.Increment = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            resources.ApplyResources(this.SplatterSizeNumericUpDown, "SplatterSizeNumericUpDown");
+            this.SplatterSizeNumericUpDown.Maximum = new decimal(new int[] {
+            1024,
+            0,
+            0,
+            0});
+            this.SplatterSizeNumericUpDown.Minimum = new decimal(new int[] {
+            128,
+            0,
+            0,
+            0});
+            this.SplatterSizeNumericUpDown.Name = "SplatterSizeNumericUpDown";
+            this.SplatterSizeNumericUpDown.ReadOnly = true;
+            this.SplatterSizeNumericUpDown.Value = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            this.SplatterSizeNumericUpDown.ValueChanged += new System.EventHandler(this.SplatterSizeNumericUpDown_ValueChanged);
+            // 
+            // SizeLabel
+            // 
+            resources.ApplyResources(this.SizeLabel, "SizeLabel");
+            this.SizeLabel.Name = "SizeLabel";
+            // 
             // OptionsForm
             // 
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.SizeLabel);
+            this.Controls.Add(this.SplatterSizeNumericUpDown);
             this.Controls.Add(this.PresetLabel);
             this.Controls.Add(this.PresetsComboBox);
             this.Controls.Add(this.ResetOptionsButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "OptionsForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.OptionsForm_FormClosing);
+            ((System.ComponentModel.ISupportInitialize)(this.SplatterSizeNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,5 +107,7 @@ namespace SplatterGenCubed {
         private System.Windows.Forms.Label PresetLabel;
         private System.Windows.Forms.ComboBox PresetsComboBox;
         private System.Windows.Forms.Button ResetOptionsButton;
+        private System.Windows.Forms.NumericUpDown SplatterSizeNumericUpDown;
+        private System.Windows.Forms.Label SizeLabel;
     }
 }
