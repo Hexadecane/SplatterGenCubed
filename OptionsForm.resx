@@ -168,7 +168,7 @@
     <value>1</value>
   </data>
   <data name="ResetOptionsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>143, 289</value>
+    <value>193, 289</value>
   </data>
   <data name="ResetOptionsButton.Size" type="System.Drawing.Size, System.Drawing">
     <value>75, 23</value>
@@ -190,30 +190,6 @@
   </data>
   <data name="&gt;&gt;ResetOptionsButton.ZOrder" xml:space="preserve">
     <value>2</value>
-  </data>
-  <data name="ApplyOptionsButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>62, 289</value>
-  </data>
-  <data name="ApplyOptionsButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>75, 23</value>
-  </data>
-  <data name="ApplyOptionsButton.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="ApplyOptionsButton.Text" xml:space="preserve">
-    <value>Apply</value>
-  </data>
-  <data name="&gt;&gt;ApplyOptionsButton.Name" xml:space="preserve">
-    <value>ApplyOptionsButton</value>
-  </data>
-  <data name="&gt;&gt;ApplyOptionsButton.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ApplyOptionsButton.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;ApplyOptionsButton.ZOrder" xml:space="preserve">
-    <value>3</value>
   </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

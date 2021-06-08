@@ -25,6 +25,60 @@ namespace SplatterGenCubed {
         OptionsForm OF = new OptionsForm();
 
 
+        // Functions for the dictionary entries go here:
+        public static Func<Color, int, int> MamBloodRF = (Color originalBrushColor, int colorShift) => {
+            return Math.Max(originalBrushColor.R + colorShift, 0);
+        };
+        public static Func<Color, int, int> MamBloodGF = (Color originalBrushColor, int colorShift) => {
+            return Math.Max(originalBrushColor.G + rng.Next(-8, 4), 0);
+        };
+        public static Func<Color, int, int> MamBloodBF = (Color originalBrushColor, int colorShift) => {
+            return Math.Max(originalBrushColor.G + rng.Next(-8, 4), 0);
+        };
+        public static Func<Color, int, int> MamBloodAF = (Color originalBrushColor, int colorShift) => {
+            return Math.Min(originalBrushColor.A + rng.Next(0, 65), 255);
+        };
+
+        public static Func<Color, int, int> ComBloodRF = (Color originalBrushColor, int colorShift) => {
+            return Math.Max(originalBrushColor.R + colorShift / 1, 0);
+        };
+        public static Func<Color, int, int> ComBloodGF = (Color originalBrushColor, int colorShift) => {
+            return Math.Max(originalBrushColor.G + colorShift / 1, 0);
+        };
+        public static Func<Color, int, int> ComBloodBF = (Color originalBrushColor, int colorShift) => {
+            return Math.Max(originalBrushColor.B + colorShift / 1, 0);
+        };
+        public static Func<Color, int, int> ComBloodAF = (Color originalBrushColor, int colorShift) => {
+            return Math.Min(originalBrushColor.A + rng.Next(-32, 65), 255);
+        };
+
+        // Dictionary for storing liquid presets:
+        public static Dictionary<string, LiquidPreset> LiquidPresets = new Dictionary<string, LiquidPreset> {
+            {
+                "MammalianBlood",
+                new LiquidPreset("MammalianBlood", new double[]{359, 0.85, 0.166}, 192, rf:MamBloodRF, gf:MamBloodGF, bf:MamBloodBF, af:MamBloodAF)
+            },
+            {
+                "CombineSynthBlood",
+                new LiquidPreset("CombineSynthBlood", new double[]{70, 0.05, 0.675}, 255, rf:ComBloodRF, gf:ComBloodGF, bf:ComBloodBF, af:ComBloodAF)
+            },
+            {
+                "XenianBlood",
+                new LiquidPreset("XenianBlood", new double[]{60, 0.75, 0.65}, 128)
+            },
+            {
+                "MotorOil",
+                new LiquidPreset("MotorOil", new double[]{30, 0.25, 0.05}, 255)
+            },
+            {
+                "Water",
+                new LiquidPreset("Water", new double[]{0, 0.0, 0.25}, 96)
+            },
+        };
+
+        public static LiquidPreset ActivePreset = LiquidPresets["MammalianBlood"];
+
+
         // Image settings:
         public Color bgColor = Color.FromArgb(255, 127, 127, 127);
         private int imgWidth;
@@ -209,9 +263,10 @@ namespace SplatterGenCubed {
                 DecalOutputData.Dispose();
             }
 
+            // What resolution the splatter is initially rendered at, and what resolution the outputted image will be:
             InitializeImageSettings(2048, 256);
 
-            SolidBrush layerBrush = new SolidBrush(HslToColor(0, 0.0, 0.025, 255));
+            SolidBrush layerBrush = new SolidBrush(HslToColor(ActivePreset.GetH(), ActivePreset.GetS(), ActivePreset.GetL(), ActivePreset.GetAlpha()));
             Bitmap imgBackground;
 
             using (Bitmap output = new Bitmap(imgWidth, imgHeight)) {
@@ -331,7 +386,6 @@ namespace SplatterGenCubed {
                     // This has a counter that decrements in the for loop when the droplets have their z coord value reach <= 0.
                     // Once the counter reaches zero, it's done.
                     int dropCount = drops.Length;
-
                     while (dropCount > 0) {
                         for (int i = 0; i < drops.Length; i++) {
                             drops[i].X += drops[i].Vector.X;
@@ -415,6 +469,8 @@ namespace SplatterGenCubed {
                         layerScales[i] = 1.25 - ((i + 1) / 6.0) * 0.75;
                     }
 
+                    Color originalBrushColor = layerBrush.Color;
+
                     // Fleck rendering code:
                     for (int i = 0; i < 1; i++) {
                         for (int p = 0; p < fleckMap.Count; p++) {
@@ -457,15 +513,6 @@ namespace SplatterGenCubed {
                                 double colorShiftDistanceScaling = (trueMaxDistLinear - (distance * 0.9)) / trueMaxDistLinear;
                                 int colorShift = Convert.ToInt32((rng.NextDouble() - 1) * 72.0 * colorShiftDistanceScaling);
 
-                                //layerBrush
-                                // Get the preset's color values.
-                                int A = layerBrush.Color.A;
-                                Color OG = Color.FromArgb(255, layerBrush.Color.R, layerBrush.Color.G, layerBrush.Color.B);
-                                int R = OG.R;
-                                int G = OG.G;
-                                int B = OG.B;
-
-                                /*
                                 // Get the preset's color values.
                                 int A = ActivePreset.GetAlpha();
                                 Color OG = HslToColor(ActivePreset.GetH(), ActivePreset.GetS(), ActivePreset.GetL());
@@ -486,7 +533,6 @@ namespace SplatterGenCubed {
                                 if (ActivePreset.BlueFunc != null) {
                                     B = ActivePreset.BlueFunc(originalBrushColor, colorShift);
                                 }
-                                */
 
                                 layerBrush.Color = Color.FromArgb(A, R, G, B);
                                 g.FillPolygon(layerBrush, Verts);
@@ -536,7 +582,7 @@ namespace SplatterGenCubed {
 
 
         private void OptionsButton_Click(object sender, EventArgs e) {
-            OF.ShowDialog();
+            OF.Show();
         }
 
 
@@ -548,4 +594,73 @@ namespace SplatterGenCubed {
         //
     }
 
+
+    // Class for liquid presets:
+    public class LiquidPreset {
+
+        public LiquidPreset(string name, double[] hsl, int a, Func<Color, int, int> rf = null, Func<Color, int, int> gf = null, Func<Color, int, int> bf = null, Func<Color, int, int> af = null) {
+            Name = name;
+            SetAllLiquidOptions(hsl, a, rf, gf, bf, af);
+        }
+
+        public void SetAllLiquidOptions(double[] newHSL, int newA, Func<Color, int, int> newRF = null, Func<Color, int, int> newGF = null, Func<Color, int, int> newBF = null, Func<Color, int, int> newAF = null) {
+            SetHSL(newHSL);
+            Alpha = newA;
+            RedFunc = newRF;
+            GreenFunc = newGF;
+            BlueFunc = newBF;
+            AlphaFunc = newAF;
+        }
+
+
+        // Getters & Setters for HSL and Alpha;
+        public int GetH() {
+            return Convert.ToInt32(HSL[0]);
+        }
+        public double GetS() {
+            return HSL[1];
+        }
+        public double GetL() {
+            return HSL[2];
+        }
+        public int GetAlpha() {
+            return Alpha;
+        }
+
+        public void SetHSL(int H, double S, double L) {
+            SetH(H);
+            SetS(S);
+            SetL(L);
+        }
+        public void SetHSL(double[] newHSL) {
+            SetH(Convert.ToInt32(newHSL[0]));
+            SetS(newHSL[1]);
+            SetL(newHSL[2]);
+        }
+        public void SetH(int H) {
+            // Clamp Hue to 0 - 360:
+            HSL[0] = Math.Min(360, Math.Max(0, H));
+        }
+        public void SetS(double S) {
+            // Clamp Saturation to 0 - 1:
+            HSL[1] = Math.Min(1.0, Math.Max(0.0, S));
+        }
+        public void SetL(double L) {
+            // Clamp Lightness to 0 - 1:
+            HSL[2] = Math.Min(1.0, Math.Max(0.0, L));
+        }
+
+
+        // Brush alteration functions:
+        public Func<Color, int, int> RedFunc;
+        public Func<Color, int, int> GreenFunc;
+        public Func<Color, int, int> BlueFunc;
+        public Func<Color, int, int> AlphaFunc;
+        // Public member variables:
+        public string Name;
+
+        // Private member variables:
+        private double[] HSL = { 0, 0, 0 };
+        private int Alpha;
+    }
 }

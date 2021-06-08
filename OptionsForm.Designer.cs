@@ -28,7 +28,6 @@ namespace SplatterGenCubed {
             this.PresetLabel = new System.Windows.Forms.Label();
             this.PresetsComboBox = new System.Windows.Forms.ComboBox();
             this.ResetOptionsButton = new System.Windows.Forms.Button();
-            this.ApplyOptionsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PresetLabel
@@ -41,18 +40,13 @@ namespace SplatterGenCubed {
             this.PresetsComboBox.FormattingEnabled = true;
             resources.ApplyResources(this.PresetsComboBox, "PresetsComboBox");
             this.PresetsComboBox.Name = "PresetsComboBox";
+            this.PresetsComboBox.SelectedIndexChanged += new System.EventHandler(this.PresetsComboBox_SelectedIndexChanged);
             // 
             // ResetOptionsButton
             // 
             resources.ApplyResources(this.ResetOptionsButton, "ResetOptionsButton");
             this.ResetOptionsButton.Name = "ResetOptionsButton";
             this.ResetOptionsButton.UseVisualStyleBackColor = true;
-            // 
-            // ApplyOptionsButton
-            // 
-            resources.ApplyResources(this.ApplyOptionsButton, "ApplyOptionsButton");
-            this.ApplyOptionsButton.Name = "ApplyOptionsButton";
-            this.ApplyOptionsButton.UseVisualStyleBackColor = true;
             // 
             // OptionsForm
             // 
@@ -61,7 +55,6 @@ namespace SplatterGenCubed {
             this.Controls.Add(this.PresetLabel);
             this.Controls.Add(this.PresetsComboBox);
             this.Controls.Add(this.ResetOptionsButton);
-            this.Controls.Add(this.ApplyOptionsButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.Name = "OptionsForm";
@@ -75,6 +68,5 @@ namespace SplatterGenCubed {
         private System.Windows.Forms.Label PresetLabel;
         private System.Windows.Forms.ComboBox PresetsComboBox;
         private System.Windows.Forms.Button ResetOptionsButton;
-        private System.Windows.Forms.Button ApplyOptionsButton;
     }
 }
