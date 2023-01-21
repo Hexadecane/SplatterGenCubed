@@ -56,6 +56,14 @@ namespace SplatterGenCubed {
         // Dictionary for storing liquid presets:
         public static Dictionary<string, LiquidPreset> LiquidPresets = new Dictionary<string, LiquidPreset> {
             {
+                "MotorOil",
+                new LiquidPreset("MotorOil", new double[]{30, 0.25, 0.05}, 255)
+            },
+            {
+                "Water",
+                new LiquidPreset("Water", new double[]{0, 0.0, 0.25}, 96)
+            },
+            {
                 "MammalianBlood",
                 new LiquidPreset("MammalianBlood", new double[]{359, 0.85, 0.166}, 192, rf:MamBloodRF, gf:MamBloodGF, bf:MamBloodBF, af:MamBloodAF)
             },
@@ -67,21 +75,13 @@ namespace SplatterGenCubed {
                 "XenianBlood",
                 new LiquidPreset("XenianBlood", new double[]{60, 0.75, 0.65}, 128)
             },
-            {
-                "MotorOil",
-                new LiquidPreset("MotorOil", new double[]{30, 0.25, 0.05}, 255)
-            },
-            {
-                "Water",
-                new LiquidPreset("Water", new double[]{0, 0.0, 0.25}, 96)
-            },
         };
 
-        public static LiquidPreset ActivePreset = LiquidPresets["MammalianBlood"];
+        public static LiquidPreset ActivePreset = LiquidPresets["MotorOil"];
 
 
         // Image settings:
-        public Color bgColor = Color.FromArgb(255, 127, 127, 127);
+        public static Color bgColor = Color.FromArgb(255, 127, 127, 127);
         private static int imgWidth;
         private static int imgHeight;
         private static int simWidth;
